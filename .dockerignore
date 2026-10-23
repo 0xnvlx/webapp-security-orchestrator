@@ -1,0 +1,21 @@
+# Keep the build context clean and the image free of host-specific state.
+.git
+.gitignore
+
+# user-specific pi backend config — the image seeds fresh from *.example.json
+pi/models.json
+pi/settings.json
+
+# host skills checkout (setup.sh re-clones this in-image)
+claude-red/
+
+# audit output (mount a volume for this instead)
+out/
+
+# OS / editor noise
+.DS_Store
+*.swp
+
+# docs/build artifacts that don't belong in the image
+Dockerfile
+.dockerignore

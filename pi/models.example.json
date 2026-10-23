@@ -1,0 +1,36 @@
+{
+  // pi model/provider config -- copied to ~/.pi/agent/models.json by setup.sh.
+  // Point this at ANY OpenAI-compatible chat/completions endpoint (llama.cpp
+  // `llama-server`, vLLM, Ollama's /v1, LM Studio, a hosted API, etc.).
+  "providers": {
+    "local": {
+      "baseUrl": "http://LLM_HOST:PORT/v1",
+      "api": "openai-completions",
+      "apiKey": "none",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false,
+        // The block below is an OPTIONAL example for Qwen3-style reasoning models
+        // served via llama.cpp --jinja. Delete it for models that don't use it.
+        "thinkingFormat": "chat-template",
+        "chatTemplateKwargs": {
+          "enable_thinking": { "$var": "thinking.enabled" },
+          "preserve_thinking": true
+        }
+      },
+      "models": [
+        {
+          "id": "local-model",
+          "name": "Local model",
+          "reasoning": true,
+          "input": ["text"],
+          // Match contextWindow to the backend's real per-slot context. If you give the
+          // backend 2+ slots, each slot's context is divided -- see the README gotcha.
+          "contextWindow": 131072,
+          "maxTokens": 16384,
+          "samplingParams": { "temperature": 1.0, "top_p": 0.95, "top_k": 20, "min_p": 0.0 }
+        }
+      ]
+    }
+  }
+}

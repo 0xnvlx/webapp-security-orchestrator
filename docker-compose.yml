@@ -1,0 +1,20 @@
+# Convenience wrapper around the Dockerfile: pi's route to a host LLM and a
+# persistent reports volume in one command.
+#
+#   docker compose run orchestrator            # interactive shell in the image
+#
+# On first use the Claude Code harness prompts for credentials; pi uses the local
+# LLM you point pi/models.json at. Then run either harness (see README "Quick start").
+services:
+  orchestrator:
+    build: .
+    image: websec-orchestrator
+    stdin_open: true          # keep stdin open for the interactive harnesses
+    tty: true
+    extra_hosts:
+      # Lets the pi harness reach an OpenAI-compatible LLM server on the Docker
+      # host as http://host.docker.internal:PORT/v1 — point pi/models.json there.
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Persist audit reports (out/<target-host>/...) on the host.
+      - ./out:/home/analyst/webapp-security-orchestrator/out

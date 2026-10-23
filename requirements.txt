@@ -1,0 +1,23 @@
+# Python tooling the claude-red web/api/auth/tls skills shell out to.
+# The Dockerfile installs these into an isolated venv (/opt/venv) that is put
+# on PATH for every user in the image. This is the *pip layer* of the image —
+# system packages (openssl, nmap, john, sslscan), the Go tool (tlsx), and the
+# git-cloned tools (testssl.sh, jwt_tool) are installed by the Dockerfile itself.
+#
+# Heavy crypto-ATTACK tooling (RsaCtfTool, SageMath, padbuster) is intentionally
+# omitted: the crypto-attacks skill is opt-in, and SageMath alone would add >1 GB.
+# See the tooling table in the README ("Without Docker").
+#
+# Lower bounds, not exact pins, so the image keeps building as upstreams move.
+# Pin exact versions here if you need a byte-reproducible image.
+
+# --- crypto/offensive-tls-attacks ---
+sslyze>=6.0            # Python-integrated TLS scanner
+certstream>=1.11       # Certificate Transparency log monitoring
+mitmproxy>=10.0        # intercepting proxy (cert-pinning / mTLS flows)
+
+# --- auth/offensive-jwt (runtime deps of github.com/ticarpi/jwt_tool) ---
+cryptography>=42.0
+pycryptodomex>=3.20
+requests>=2.31
+termcolor>=2.4

@@ -1,0 +1,10 @@
+# user-specific pi backend config (seeded from the *.example.json by setup.sh)
+pi/models.json
+pi/settings.json
+# claude-red skills checkout (fetched by setup.sh)
+claude-red/
+# audit output
+out/
+# OS / editor noise
+.DS_Store
+*.swp
